@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Jogo da forca</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	 crossorigin="anonymous">
+</head>
+
+<body style="background-image: url('paper.jpg');background-size: contain;">
+
+	<div id="app">
+		<div class="container-fluid p-0 bg-info">
+			<h1 class="text-white text-center py-4">Forca</h1>
+		</div>
+		<div class="container">
+
+			<template v-if="choosing_category">
+				<h2 class="text-center my-3">Escolha a categoria:</h2>
+				<div class="form-group">
+					<input type="text" @keyup.enter="okCategory()" v-on:keyup="onFill()" class="form-control" v-bind:class="{ 'border': hasError, 'border-danger': hasError }"
+					 name="category" v-model="category" id="category" placeholder="Categoria" required>
+				</div>
+				<a v-on:click="okCategory()" class="btn btn-primary col-12 text-white font-weight-bold">OK</a>
+			</template>
+
+			<h3 v-if="ok" class="text-center my-3">Categoria: {{ category }}</h3>
+
+			<template v-if="choosing_word">
+				<h2 class="text-center my-3">Escolha a palavra:</h2>
+				<div class="form-group">
+					<input type="text" @keyup.enter="okWord()" v-on:keyup="onFill()" class="form-control" v-bind:class="{ 'border': hasError, 'border-danger': hasError }"
+					 name="word" v-model="word" id="word" placeholder="Palavra" required>
+				</div>
+				<a v-on:click="okWord()" class="btn btn-primary col-12 text-white font-weight-bold">OK</a>
+			</template>
+
+			<div class="col-12">
+
+			<template v-if="word_show">
+				<h2 class="text-center">{{ length_word }}</h2>
+				<div class="col-2 float-left">
+						<div class="row">
+							<img :src="stickman" alt="">
+						</div>
+				</div>
+				<div class="col-10 text-center d-flex align-itens-center">
+					<h3 v-if="guess" v-for="h in hidden_word" class="text-center my-4 float-left mx-auto" style="font-size: 40px; text-decoration: underline;">{{
+						h }}</h3>
+				</div>
+			</template>
+
+			<template v-if="choosing_letter">
+				<h2 class="text-center my-3">Escolha uma letra:</h2>
+				<div class="form-group">
+					<input type="text" v-on:keyup="onFill()" @keyup.enter="okLetter()" maxlength="1" class="form-control" v-bind:class="{ 'border': hasError, 'border-danger': hasError }"
+					 name="letter" v-model="letter" id="letter" placeholder="Letra" required>
+				</div>
+				<a v-on:click="okLetter()" class="btn btn-primary col-12 text-white font-weight-bold">OK</a>
+				<div class="col-6 float-left">
+					<h4 class="text-success text-center my-3">Certas</h4>
+					<template v-if="right_word[0] !== null">
+						<p v-for="c in right_word" class="float-left" style="font-size: 25px;">{{ c }}</p>
+					</template>
+				</div>
+				<div class="col-6 float-left">
+					<h4 class="text-danger text-center my-3">Erradas</h4>
+					<p v-for="e in wrong_word" class="float-left" style="font-size: 25px;">{{ e }}</p>
+				</div>
+			</template>
+
+			<template v-if="won">
+				<h1 class="text-success text-center mt-2">Ganhou!</h1>
+				<a v-on:click="restart()" class="btn btn-primary col-12 text-white font-weight-bold">Reiniciar</a>
+			</template>
+
+			<template v-if="lost">
+				<h1 class="text-danger text-center">Perdeu!</h1>
+				<a v-on:click="restart()" class="btn btn-primary col-12 text-white font-weight-bold">Reiniciar</a>
+			</template>
+
+			</div>
+
+		</div>
+	</div>
+	</div>
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	 crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	 crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	 crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+	<script src="main.js"></script>
+
+</body>
+
+</html>
